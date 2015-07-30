@@ -8,6 +8,6 @@
 
 ## TODO:
 - edit posts
-- (Critical) prevent insert javascript in comments
+- comments permit secure html
 - refactor code
 - api

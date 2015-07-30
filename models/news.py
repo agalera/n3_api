@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from datetime import datetime
 from modules.database import MongoDB
+from re import sub
 
 
 class M_news(object):
@@ -27,7 +28,7 @@ class M_news(object):
     def new_comment(cls, id_post, texto, ip, *args, **kwargs):
         user = MongoDB.get().users.find_one({'id': kwargs['n3_token']['id']})
         append_dict = {'user': user,
-                       'texto': texto,
+                       'texto': sub('<[^<]+?>', '', texto),
                        'ip': ip,
                        'date': datetime.now()}
         MongoDB.get().posts.update({'_id': ObjectId(id_post)},
