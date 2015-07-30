@@ -1,6 +1,6 @@
 <h1>ABOUT</h1>
 <div class="content_post">
-<p>blalblabla­</p>
+<p>blalblablaÂ­</p>
 </div>
 <h1>N3</h1>
 <div class="content_post">
