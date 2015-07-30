@@ -1,0 +1,135 @@
+body{
+    background-color: #EEE;
+    color: #000;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Open Sans', sans-serif;
+}
+#container{
+    position: relative;
+    margin: 0 auto;
+
+    margin-top: 40px;
+    width: 860px;
+    padding: 0 20 0 20;
+    overflow-x: hidden;
+    border: 1px solid #ccc;
+    border-bottom: 8px solid #ccc;
+    background-color: #FFF;
+    color: #444;
+}
+p {
+    margin: 0px;
+    margin-bottom: 6px;
+    padding: 0px;
+}
+#header{
+    position: relative;
+    clear: both;
+    height: 50px;
+    margin-bottom: 30px;
+    padding-top:10px;
+}
+#header .logo{
+    font-size: 38px;
+}
+#header .content_menu{
+    font-size: 20px;
+    font-weight: 300;
+    color: #000;
+    padding-left: 10px;
+}
+#header .content_menu a{
+    color: #F00;
+    text-decoration: none;
+}
+#header .content_menu a:hover{
+    color: #333;
+}
+#right_column{
+    position: relative;
+    float: right;
+    width: 278px;
+    min-height: 700px;
+    border: 1px solid #ccc;
+}
+.body{
+    position: relative;
+    float: left;
+    width: 578px;
+    margin-bottom: 40px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+h1{
+    background-color: #ccc;
+    color: #333;
+    margin: 0px;
+    padding: 2 10 2 10;
+    font-size: 12px;
+    font-weight: 700;
+
+}
+#footer{
+
+    font-size: 11px;
+    position: relative;
+    text-align: center;
+
+    margin: 0 auto;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    width: 860px;
+    padding: 0 20 0 20;
+}
+.content_post{
+    position: relative;
+    margin: 0 auto;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+.content_post h1{
+    background-color: #FFF;
+    color: #933;
+    margin: 0px;
+    padding: 0px;
+    font-size: 22px;
+
+}
+.content_post h4{
+    margin: 0px;
+    padding-top: 2px;
+    padding-bottom: 0px;
+    font-size: 10px;
+
+}
+.person{
+    position: relative;
+    float: left;
+    padding: 4px;
+    margin: 4px 0px 4px 4px;
+    width: 178px;
+    font-size: 14px;
+    height: 270px;
+}
+.salto{
+    clear: both;
+}
+.person .photo{
+    background-color: #333;
+    position: relative;
+    height: 180px;
+    margin-bottom: 8px;
+}
+.content_posts img{
+    max-width: 100%;
+}
+.login{
+    position: absolute;
+    top: 12px;
+    right: 2px;
+}
+.login a{
+    text-decoration: none;
+}

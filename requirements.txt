@@ -1,0 +1,8 @@
+pymongo
+bottle
+jinja2
+gunicorn
+gevent
+eventlet
+rauth
+requests
