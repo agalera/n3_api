@@ -3,6 +3,7 @@ from models.login import M_login
 import rauth
 import settings
 import json
+import functools
 
 
 cookies_names = ['name', 'id', 'picture', 'locale', 'link', 'given_name',
@@ -38,22 +39,17 @@ def get_cookie(param=None):
             return None
 
 
-def require_user(fn):
-    def check_uid(**kwargs):
-        kwargs['n3_token'] = get_cookie()
-        if kwargs['n3_token'] is None:
-            redirect("/login")
-        return fn(**kwargs)
-    return check_uid
-
-
-def require_admin(fn):
-    def check_uid(**kwargs):
-        kwargs['n3_token'] = get_cookie()
-        if kwargs['n3_token'] is None or kwargs['n3_token']['account_type'] != 1:
-            redirect("/login")
-        return fn(**kwargs)
-    return check_uid
+def auth(check):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*a, **ka):
+            ka['n3_token'] = get_cookie()
+            if ka['n3_token'] is None or kwargs['n3_token']['account_type'] != check:
+                return HTTPError(401, "Access denied")
+                redirect("/login")
+            return func(*a, **ka)
+        return wrapper
+    return decorator
 
 
 @get('/login<:re:/?>')

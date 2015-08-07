@@ -1,6 +1,6 @@
 from bottle import get, post, request, redirect
 from modules.render import draw
-from modules.oauth2 import require_user, get_cookie
+from modules.oauth2 import auth, get_cookie
 from models.news import M_news
 import settings
 
@@ -33,7 +33,7 @@ class News:
                     tot=tot, **kwargs)
 
     @post('/new_comment/<id_post>')
-    @require_user
+    @auth(1)
     def new_comment(id_post, *args, **kwargs):
         M_news.new_comment(id_post, request.forms.get('texto').decode(
             'utf-8'), request.environ.get('REMOTE_ADDR'), *args, **kwargs)
