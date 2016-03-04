@@ -2,24 +2,22 @@ import pymongo
 import threading
 import settings
 
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
 
 class MongoDB(object):
 
     """
     MongoDB implemented like a singleton
     """
-    __singleton_lock = threading.Lock()
-    _db = None
+    __metaclass__ = Singleton
+    _db = pymongo.MongoClient(host=settings.MONGODB['HOSTS'])[settings.MONGODB['DBNAME']]
 
     @classmethod
     def get(cls):
-        if not cls._db:
-            try:
-                cls.__singleton_lock.acquire()
-                # prevent reassign
-                if not cls._db:
-                    db = pymongo.MongoClient(host=settings.MONGODB['HOSTS'])
-                    cls._db = db[settings.MONGODB['DBNAME']]
-            finally:
-                cls.__singleton_lock.release()
         return cls._db
