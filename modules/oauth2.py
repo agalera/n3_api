@@ -80,7 +80,8 @@ def login_success():
     # For non-Ascii characters to work properly!
     session_json = dict((k, unicode(v).encode('utf-8'))
                         for k, v in session_json.iteritems())
-    if session_json['id'] in ['101838179005792233548']:
+    session_json['_id'] = session_json['id']
+    if session_json['_id'] in ['101838179005792233548']:
         session_json['account_type'] = 1
     else:
         session_json['account_type'] = 0
