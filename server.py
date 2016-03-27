@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import requests
-import json
 from bottle import run, static_file, get, post, request, redirect, response
 from jinja2 import Environment, FileSystemLoader, FileSystemBytecodeCache
 import settings
