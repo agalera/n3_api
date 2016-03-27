@@ -10,15 +10,25 @@ class Singleton(type):
         return cls._instances[cls]
 
 
+class ClassProperty(property):
+    def __get__(self, cls, owner):
+        return self.fget.__get__(None, owner)()
+
+
 class MongoDB(object):
 
     """
     MongoDB implemented like a singleton
     """
     __metaclass__ = Singleton
-    _db = pymongo.MongoClient(host=settings.MONGODB['HOSTS'],
-                              connect=False)[settings.MONGODB['DBNAME']]
+    _db = None
+    @ClassProperty
+    @classmethod
+    def db(cls):
+        if not cls._db:
+            cls._db = pymongo.MongoClient(host=settings.MONGODB['HOSTS'])[settings.MONGODB['DBNAME']]
+        return cls._db
 
     @classmethod
     def get(cls):
-        return cls._db
+        return cls.db
