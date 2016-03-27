@@ -16,6 +16,6 @@ class M_login(object):
         # 'Alberto', u'email': 'galerajimenez@gmail.com', u'verified_email':
         # 'True'}
         # TODO: not update
-        if MongoDB.get().users.find_one({'id': kwargs['id']}) is None:
-            print "nuevo user", kwargs
+        if MongoDB.get().users.find_one({'_id': kwargs['_id']}) is None:
+            print "new user", kwargs
             MongoDB.get().users.insert(kwargs)
