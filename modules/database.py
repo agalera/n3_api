@@ -16,7 +16,8 @@ class MongoDB(object):
     MongoDB implemented like a singleton
     """
     __metaclass__ = Singleton
-    _db = pymongo.MongoClient(host=settings.MONGODB['HOSTS'])[settings.MONGODB['DBNAME']]
+    _db = pymongo.MongoClient(host=settings.MONGODB['HOSTS'],
+                              connect=False)[settings.MONGODB['DBNAME']]
 
     @classmethod
     def get(cls):
