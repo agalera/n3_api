@@ -33,7 +33,7 @@ class News:
                     tot=tot, **kwargs)
 
     @post('/new_comment/<id_post>')
-    @auth(1)
+    @auth(0)
     def new_comment(id_post, *args, **kwargs):
         M_news.new_comment(id_post, request.forms.get('texto').decode(
             'utf-8'), request.environ.get('REMOTE_ADDR'), *args, **kwargs)
