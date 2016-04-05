@@ -1,3 +1,4 @@
+from sys import argv
 SECRET = "n3isgood"
 
 MONGODB = {'HOSTS': ['localhost'],
@@ -7,10 +8,10 @@ MONGODB = {'HOSTS': ['localhost'],
 GUNICORN = {'server': 'gunicorn', 'host': '0.0.0.0', 'port': 9999,
             'workers': 1, 'worker_class': 'eventlet', 'debug': False,
             'reloader': False}
-
+BJOERN = {'server': 'bjoern', 'port': 2222, 'host': 'unix:/tmp/n3_%s.socket' % sys.argv[1]}
 DEFAULT = {'host': '0.0.0.0', 'port': 9999, 'debug': True, 'reloader': True}
 
-SERVER = GUNICORN
+SERVER = DEFAULT
 
 COOKIE_NAME = 'n3_token'
 JINJA2_CACHE = '/home/common/tmp/jinjacache'
