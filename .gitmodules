@@ -1,0 +1,3 @@
+[submodule "n3_front"]
+  path = static
+  url = git://github.com/kianxineki/n3_front
