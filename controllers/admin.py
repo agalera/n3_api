@@ -4,7 +4,7 @@ from models.admin import M_admin
 
 
 class Admin:
-    @post('/new_post')
+    @post('/api/new_post')
     @auth(1)
     def new_post(auth_user):
         new_id = M_admin.new_post(kwargs['auth_user']['id'],

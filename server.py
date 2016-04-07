@@ -7,20 +7,14 @@ import settings
 # import controllers
 from controllers import *
 
+if settings.STATIC_FILES:
+    @get('/')
+    def index():
+        return static('index.html')
 
-@get('/') # prefer nginx
-def index():
-    return static_file("index.html", root='./front')
-
-
-@get('/front/<path:path>')  # prefer nginx
-def front(path):
-    return static_file(path, root='./front')
-
-
-@get('/robots.txt')
-def robots():
-    return static('robots.txt')
+    @get('/<path:path>')
+    def static(path):
+        return static_file(path, root='./front')
 
 
 if __name__ == "__main__":

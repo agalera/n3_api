@@ -1,6 +1,7 @@
 from sys import argv
 SECRET = "n3isgood"
 
+STATIC_FILES = True  # Only developing!
 MONGODB = {'HOSTS': ['localhost'],
            'DBNAME': 'blog'}
 
