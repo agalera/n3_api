@@ -4,7 +4,7 @@ import rauth
 import settings
 import json
 import functools
-
+import hashlib
 
 cookies_names = ['name', 'id', 'picture', 'locale', 'link', 'given_name',
                  'email', 'verified_email', 'account_type']
@@ -21,33 +21,49 @@ redirect_uri = '{uri}/oauth2callback'.format(
     uri=settings.oauth2g['redirect_uris'][0]
 )
 
+def cookie_encode(data, key, digestmod=None):
+    """ Encode and sign a json object. Return a (byte) string """
+    digestmod = digestmod or hashlib.sha256
+    msg = base64.b64encode(json.dumps(data, -1))
+    sig = base64.b64encode(hmac.new(tob(key), msg, digestmod=digestmod).digest())
+    return tob('!') + sig + tob('?') + msg
+
+
+def cookie_decode(data, key, digestmod=None):
+    """ Verify and decode an encoded string. Return an object or None."""
+    data = tob(data)
+    sig, msg = data.split(tob('?'), 1)
+    digestmod = digestmod or hashlib.sha256
+    hashed = hmac.new(tob(key), msg, digestmod=digestmod).digest()
+    if _lscmp(sig[1:], base64.b64encode(hashed)):
+        return json.loads(base64.b64decode(msg))
+    return None
 
 def get_cookie(param=None):
 
-    params = request.get_cookie(settings.COOKIE_NAME, secret=settings.SECRET)
+    params = cookie_decode(request.get_cookie(settings.COOKIE_NAME))
     if params is None:
         return None
-    else:
-        params = json.loads(params)
 
     if param is None:
         return params
-    else:
-        try:
-            return params[param]
-        except:
-            return None
+    return params.get(param, None)
 
 
 def auth(check):
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*a, **ka):
-            ka['n3_token'] = get_cookie()
-            if ka['n3_token'] is None or ka['n3_token']['account_type'] != check:
-                return HTTPError(401, "Access denied")
-                redirect("/login")
-            return func(*a, **ka)
+            token = get_cookie()
+            ka['auth_user'] = token
+            if token is not None and token['account_type'] == check:
+                user = M_login.get_user(token['_id'])
+                if user['account_type'] == token['account_type']:
+                    return func(*a, **ka)
+                print '**************** hacked info ****************'
+                print token
+                print '**************** hacked end ****************'
+            return HTTPError(403, "Forbbiden")
         return wrapper
     return decorator
 
@@ -81,15 +97,12 @@ def login_success():
     session_json = dict((k, unicode(v).encode('utf-8'))
                         for k, v in session_json.iteritems())
     session_json['_id'] = session_json['id']
-    if session_json['_id'] in ['101838179005792233548']:
-        session_json['account_type'] = 1
-    else:
-        session_json['account_type'] = 0
+    session_json['account_type'] = 0
 
-    M_login.update_user(session_json)
-    response.set_cookie(settings.COOKIE_NAME, json.dumps(session_json),
-                        secret=settings.SECRET)
-    print "info session", session_json
+    M_login.check_user(session_json)  # create user if not exist
+    response.set_cookie(settings.COOKIE_NAME,
+                        cookie_encode(session_json, settings.SECRET))
+
     return redirect("/")
 
 

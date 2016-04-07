@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from bottle import run, static_file, get, post, request, redirect, response
-from jinja2 import Environment, FileSystemLoader, FileSystemBytecodeCache
+from bottle import run, static_file, get
 import settings
 
-# import views
-from views.admin import Admin
-from views.news import News
-from views.about import About
+# import controllers
+from controllers import *
 
 
 @get('/static/<path:path>')  # prefer nginx

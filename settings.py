@@ -8,7 +8,10 @@ MONGODB = {'HOSTS': ['localhost'],
 GUNICORN = {'server': 'gunicorn', 'host': '0.0.0.0', 'port': 9999,
             'workers': 1, 'worker_class': 'eventlet', 'debug': False,
             'reloader': False}
-BJOERN = {'server': 'bjoern', 'port': 9999-int(sys.argv[1]), 'host': '0.0.0.0'}
+
+if len(argv) < 1:
+    BJOERN = {'server': 'bjoern', 'port': 9999-int(argv[1]), 'host': '0.0.0.0'}
+
 DEFAULT = {'host': '0.0.0.0', 'port': 9999, 'debug': True, 'reloader': True}
 
 SERVER = DEFAULT

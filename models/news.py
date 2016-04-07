@@ -25,8 +25,8 @@ class M_news(object):
                 'page': page}
 
     @classmethod
-    def new_comment(cls, id_post, texto, ip, *args, **kwargs):
-        user = MongoDB.get().users.find_one({'id': kwargs['n3_token']['id']})
+    def new_comment(cls, id_post, texto, ip, auth_user):
+        user = MongoDB.get().users.find_one({'id': auth_user['id']})
         append_dict = {'user': user,
                        'texto': sub('<[^<]+?>', '', texto),
                        'ip': ip,
@@ -35,5 +35,5 @@ class M_news(object):
                                    {'$push': {'comments': append_dict}})
 
     @classmethod
-    def regenerate_comments(cls, ide):
-        return MongoDB.get().posts.find_one({'_id': ObjectId(ide)})
+    def new_detailed(cls, _id):
+        return MongoDB.get().posts.find_one({'_id': ObjectId(_id)})
