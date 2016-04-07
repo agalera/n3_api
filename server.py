@@ -8,13 +8,15 @@ import settings
 from controllers import *
 
 if settings.STATIC_FILES:
-    @get('/')
-    def index():
-        return static('index.html')
-
-    @get('/<path:path>')
+    @get('/static/<path:path>')
     def static(path):
         return static_file(path, root='./front')
+
+
+    @get('/<path:path>')
+    @get('/')
+    def static(path=None):
+        return static_file('index.html', root='./front')
 
 
 if __name__ == "__main__":

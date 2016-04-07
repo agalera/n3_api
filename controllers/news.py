@@ -9,18 +9,33 @@ class News:
     @get('/api/news')
     @get('/api/other_news/<page>')
     def other_news(page=0):
-        return {'news': M_news.news(int(page))}
+        news = M_news.news(int(page))
+        for new in news['result']:
+            new['_id'] = str(new['_id'])
+            new['date'] = new['date'].strftime("%Y-%m-%d %H:%M:%S")
+            new['comments'] = len(new['comments'])  # TODO
+        return {'news': news}
 
     @get('/api/search/page/<page>/tags/<tags:path>')
     def view_tags(page, tags):
         tags_parse = tags.split('/')
-        return {'news': M_news.tags(tags_parse, int(page)),
+        news = M_news.tags(tags_parse, int(page))
+        for new in news['result']:
+            new['_id'] = str(new['_id'])
+            new['date'] = new['date'].strftime("%Y-%m-%d %H:%M:%S")
+            new['comments'] = len(new['comments'])  # TODO
+        return {'news': news,
                 'tags': tags_parse,
                 'search': True}
 
     @get('/api/comments/<id_post>')
     def comments(id_post):
-        return M_news.new_detailed(id_post)
+        new = M_news.new_detailed(id_post)
+        new['_id'] = str(new['_id'])
+        new['date'] = new['date'].strftime("%Y-%m-%d %H:%M:%S")
+        for comment in new['comments']:
+            comment['date'] = comment['date'].strftime("%Y-%m-%d %H:%M:%S")
+        return new
 
     @post('/api/new_comment/<id_post>')
     @auth(0)
