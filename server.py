@@ -8,9 +8,14 @@ import settings
 from controllers import *
 
 
-@get('/static/<path:path>')  # prefer nginx
-def static(path):
-    return static_file(path, root='./static')
+@get('/') # prefer nginx
+def index():
+    return static_file("index.html", root='./front')
+
+
+@get('/front/<path:path>')  # prefer nginx
+def front(path):
+    return static_file(path, root='./front')
 
 
 @get('/robots.txt')
