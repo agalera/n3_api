@@ -44,7 +44,7 @@ def auth(check):
         @functools.wraps(func)
         def wrapper(*a, **ka):
             ka['n3_token'] = get_cookie()
-            if ka['n3_token'] is None or ka['n3_token']['account_type'] != check:
+            if ka['n3_token'] is None or ka['n3_token']['account_type'] < check:
                 return HTTPError(401, "Access denied")
                 redirect("/login")
             return func(*a, **ka)
