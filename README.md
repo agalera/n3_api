@@ -8,6 +8,4 @@
 
 ## TODO:
 - edit posts
-- comments permit secure html
-- refactor code
-- api
+- Comments full api rest
