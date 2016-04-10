@@ -1,7 +1,6 @@
-from bottle import get, post, request, redirect
-from modules.oauth2 import auth, get_cookie
+from bottle import get, post, request
+from modules.oauth2 import auth
 from models.news import M_news
-import settings
 
 
 class News:
@@ -43,4 +42,3 @@ class News:
         M_news.new_comment(id_post, request.forms.get('texto').decode(
             'utf-8'), request.environ.get('REMOTE_ADDR'), auth_user)
         return {"result": True}
-

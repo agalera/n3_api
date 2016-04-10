@@ -12,10 +12,9 @@ if settings.STATIC_FILES:
     def static(path):
         return static_file(path, root='./front')
 
-
     @get('/<path:path>')
     @get('/')
-    def static(path=None):
+    def static2(path=None):
         return static_file('index.html', root='./front')
 
 

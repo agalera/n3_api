@@ -1,4 +1,3 @@
-from pymongo import MongoClient
 from bson.objectid import ObjectId
 from datetime import datetime
 from modules.database import MongoDB
@@ -25,12 +24,12 @@ class M_news(object):
         # TODO
         result = list(
             MongoDB.db.posts.find(
-                {},{'date': True,
-                    'texto': True,
-                    'title': True,
-                    'comments': True,
-                    'tags': True}).sort("_id",
-                    -1).skip(page * 10).limit(10))
+                {}, {'date': True,
+                     'texto': True,
+                     'title': True,
+                     'comments': True,
+                     'tags': True}).sort("_id",
+                                         -1).skip(page * 10).limit(10))
 
         return {'result': result,
                 'n_posts': MongoDB.db.posts.count(),
@@ -44,7 +43,7 @@ class M_news(object):
                        'ip': ip,
                        'date': datetime.now()}
         MongoDB.db.posts.update({'_id': ObjectId(id_post)},
-                                   {'$push': {'comments': append_dict}})
+                                {'$push': {'comments': append_dict}})
 
     @classmethod
     def new_detailed(cls, _id):

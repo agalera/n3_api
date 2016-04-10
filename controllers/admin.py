@@ -1,4 +1,4 @@
-from bottle import post, request, redirect
+from bottle import post, request
 from modules.oauth2 import auth
 from models.admin import M_admin
 
