@@ -1,24 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from bottle import run, static_file, get, post, request, redirect, response
-from jinja2 import Environment, FileSystemLoader, FileSystemBytecodeCache
+from bottle import run, static_file, get
 import settings
 
-# import views
-from views.admin import Admin
-from views.news import News
-from views.about import About
+# import controllers
+from controllers import *
 
+if settings.STATIC_FILES:
+    @get('/static/<path:path>')
+    def static(path):
+        return static_file(path, root='./front')
 
-@get('/static/<path:path>')  # prefer nginx
-def static(path):
-    return static_file(path, root='./static')
-
-
-@get('/robots.txt')
-def robots():
-    return static('robots.txt')
+    @get('/<path:path>')
+    @get('/')
+    def static2(path=None):
+        return static_file('index.html', root='./front')
 
 
 if __name__ == "__main__":

@@ -1,12 +1,14 @@
 import pymongo
-import threading
 import settings
+
 
 class Singleton(type):
     _instances = {}
+
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+            cls._instances[cls] = super(Singleton,
+                                        cls).__call__(*args, **kwargs)
         return cls._instances[cls]
 
 
@@ -22,11 +24,13 @@ class MongoDB(object):
     """
     __metaclass__ = Singleton
     _db = None
+
     @ClassProperty
     @classmethod
     def db(cls):
         if not cls._db:
-            cls._db = pymongo.MongoClient(host=settings.MONGODB['HOSTS'])[settings.MONGODB['DBNAME']]
+            tmp = pymongo.MongoClient(host=settings.MONGODB['HOSTS'])
+            cls._db = tmp[settings.MONGODB['DBNAME']]
         return cls._db
 
     @classmethod
