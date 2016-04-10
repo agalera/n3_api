@@ -14,6 +14,7 @@ class M_news(object):
              'texto': True,
              'title': True,
              'comments': True,
+             'user.name': True,
              'tags': True}).sort("_id", -1).skip(page * 10).limit(10))
         result2 = MongoDB.db.posts.find({'tags': {'$in': tags}}).count()
 
@@ -28,9 +29,10 @@ class M_news(object):
                      'texto': True,
                      'title': True,
                      'comments': True,
+                     'user.name': True,
                      'tags': True}).sort("_id",
                                          -1).skip(page * 10).limit(10))
-
+        print "result", result
         return {'result': result,
                 'n_posts': MongoDB.db.posts.count(),
                 'page': page}
@@ -47,4 +49,10 @@ class M_news(object):
 
     @classmethod
     def new_detailed(cls, _id):
-        return MongoDB.db.posts.find_one({'_id': ObjectId(_id)})
+        return MongoDB.db.posts.find_one({'_id': ObjectId(_id)},
+                                         {'date': True,
+                                          'texto': True,
+                                          'title': True,
+                                          'comments': True,
+                                          'user.name': True,
+                                          'tags': True})

@@ -1,4 +1,4 @@
-from bottle import get, post, request
+from bottle import get, post, request, redirect
 from modules.oauth2 import auth
 from models.news import M_news
 
@@ -8,6 +8,7 @@ class News:
     @get('/api/news')
     @get('/api/other_news/<page>')
     def other_news(page=0):
+        print "api news"
         news = M_news.news(int(page))
         for new in news['result']:
             new['_id'] = str(new['_id'])
@@ -41,4 +42,6 @@ class News:
     def new_comment(id_post, auth_user):
         M_news.new_comment(id_post, request.forms.get('texto').decode(
             'utf-8'), request.environ.get('REMOTE_ADDR'), auth_user)
-        return {"result": True}
+        # TODO
+        redirect('/comments/%s' % id_post)
+        # return {"result": True}

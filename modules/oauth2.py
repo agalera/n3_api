@@ -60,8 +60,7 @@ def auth(check):
         def wrapper(*a, **ka):
             token = get_cookie()
             ka['auth_user'] = token
-            print token
-            if token is not None and token['account_type'] < check:
+            if token is not None and token['account_type'] >= check:
                 user = M_login.get_user(token['_id'])
                 if user['account_type'] == token['account_type']:
                     return func(*a, **ka)
