@@ -32,7 +32,6 @@ class M_news(object):
                      'user.name': True,
                      'tags': True}).sort("_id",
                                          -1).skip(page * 10).limit(10))
-        print "result", result
         return {'result': result,
                 'n_posts': MongoDB.db.posts.count(),
                 'page': page}

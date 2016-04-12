@@ -8,7 +8,6 @@ class News:
     @get('/api/news')
     @get('/api/other_news/<page>')
     def other_news(page=0):
-        print "api news"
         news = M_news.news(int(page))
         for new in news['result']:
             new['_id'] = str(new['_id'])
