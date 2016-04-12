@@ -43,16 +43,18 @@ def cookie_decode(data, key=settings.SECRET, digestmod=None):
         return json.loads(base64.b64decode(msg))
     return None
 
-
 def get_cookie(param=None):
-    params = cookie_decode(request.get_cookie(settings.COOKIE_NAME))
+    cookie = request.get_cookie(settings.COOKIE_NAME)
+    if not cookie:
+        return None
+
+    params = cookie_decode(cookie)
     if params is None:
         return None
 
     if param is None:
         return params
     return params.get(param, None)
-
 
 def auth(check):
     def decorator(func):
