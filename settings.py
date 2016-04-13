@@ -1,6 +1,10 @@
 from sys import argv
 SECRET = "n3isgood"
 
+# after verifying that the cookie is legitimate (checking the hash with which has been encoded)
+# check after the database to see if all data are identical
+PARANOID = False  
+
 STATIC_FILES = True  # Only developing!
 MONGODB = {'HOSTS': ['localhost'],
            'DBNAME': 'blog'}
