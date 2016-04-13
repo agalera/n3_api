@@ -63,12 +63,19 @@ def auth(check):
             token = get_cookie()
             ka['auth_user'] = token
             if token is not None and token['account_type'] >= check:
-                user = M_login.get_user(token['_id'])
-                if user['account_type'] == token['account_type']:
-                    return func(*a, **ka)
-                print '**************** hacked info ****************'
-                print token
-                print '**************** hacked end ****************'
+                if settings.PARANOID:
+                    user = M_login.get_user(token['_id'])
+                    if user['account_type'] != token['account_type']:
+                        '''
+                        User data are different from those found in the
+                        database.
+
+                        This may be because some data has been changed to
+                        the user or the user has achieved the secret_password
+                        with which cookies are encoded
+                        '''
+                        return HTTPError(401, "Unauthorized")
+                return func(*a, **ka)
             return HTTPError(403, "Forbbiden")
         return wrapper
     return decorator
