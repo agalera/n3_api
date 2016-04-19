@@ -12,10 +12,10 @@ class M_login(object):
         # 'https://plus.google.com/101838179005792233548', u'given_name':
         # 'Alberto', u'email': 'galerajimenez@gmail.com', u'verified_email':
         # 'True'}
-        user = MongoDB.db.users.find_one({'_id': session_json['_id']})
+        user = M_login.get_user(session_json['_id'])
         if user is None:
             session_json['account_type'] = 0
-            return MongoDB.db.users.insert_one(session_json)
+            MongoDB.db.users.insert_one(session_json)
         return user
 
     @classmethod
